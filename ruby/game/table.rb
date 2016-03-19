@@ -43,18 +43,29 @@ class Table
             return true unless column.eql?(@grid.size-1)
         elsif move == RIGHT_ARROW
             return true unless column.eql?(0)
-        else
-            return false
         end
+
+        return false
+    end
+
+    def win?
+        return false if @grid.last != 0
+        list = @grid.flatten.take(@grid.size - 1) # grid to flat array
+        list.each_cons(2).all?{|a, b| a <= b}
     end
 
     def loop_game
-        show_table
-        move = read_char
-        unless move == "q"
+        while !win?
+            system("clear") or system("cls")
+            show_table
+            move = read_char
+
+            break if move == "q"
+            
             moviment(move)
-            loop_game
         end
+
+        puts 'Voce venceu!!' if win?
     end
 end
 
