@@ -2,6 +2,13 @@
 
 require 'io/console'
 
+public
+
+UP_ARROW = "\e[A"
+DOWN_ARROW = "\e[B"
+RIGHT_ARROW = "\e[C"
+LEFT_ARROW = "\e[D"
+
 # Reads keypresses from the user including 2 and 3 escape character sequences.
 def read_char
   STDIN.echo = false
