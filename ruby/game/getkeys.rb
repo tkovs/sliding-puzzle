@@ -2,8 +2,6 @@
 
 require 'io/console'
 
-public
-
 UP_ARROW = "\e[A"
 DOWN_ARROW = "\e[B"
 RIGHT_ARROW = "\e[C"

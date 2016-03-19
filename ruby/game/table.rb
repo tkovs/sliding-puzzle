@@ -49,24 +49,31 @@ class Table
     end
 
     def win?
-        return false if @grid.last != 0
-        list = @grid.flatten.take(@grid.size - 1) # grid to flat array
-        list.each_cons(2).all?{|a, b| a <= b}
+        return false if @grid.flatten.last != 0
+
+        list = @grid.flatten # grid to flat array
+        list.pop
+        return list.each_cons(2).all?{|a, b| a <= b}
     end
 
     def loop_game
         while !win?
-            system("clear") or system("cls")
+            system "clear"
             show_table
             move = read_char
-
             break if move == "q"
             
             moviment(move)
         end
 
+        system "clear"
+        show_table
         puts 'Voce venceu!!' if win?
+    end
+
+    def play
+        loop_game 
     end
 end
 
-Table.new(4).loop_game
+Table.new(4).play
