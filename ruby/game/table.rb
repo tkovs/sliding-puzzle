@@ -7,7 +7,19 @@ class Table
     end
 
     def show_table
-        @grid.map{|row| puts "#{row}"}
+        #@grid.map{|row| row.map {|x| print x.to_s.rjust(2, "0") + ' '} and puts}
+
+        @grid.each do |row|
+            row.each do |element|
+                unless element == 0
+                    print '[' + element.to_s.rjust(2, "0") + '] '
+                else
+                    print '     '
+                end
+            end
+
+            puts
+        end
     end
 
     def moviment(move)
@@ -51,7 +63,7 @@ class Table
     def win?
         return false if @grid.flatten.last != 0
 
-        list = @grid.flatten # grid to flat array
+        list = @grid.flatten
         list.pop
         return list.each_cons(2).all?{|a, b| a <= b}
     end
