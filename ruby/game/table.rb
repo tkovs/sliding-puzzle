@@ -2,8 +2,9 @@ require_relative 'getkeys'
 
 class Table
     def initialize(size)
-        table = (0 .. size*size -1).to_a
-        @grid = table.shuffle.each_slice(size).to_a
+        table =  (1.. size*size -1).to_a.push(0)
+        @grid = table.each_slice(size).to_a
+        muddle
     end
 
     def show_table
@@ -19,6 +20,14 @@ class Table
             end
 
             puts
+        end
+    end
+
+    def muddle
+        moviments = 4 * ((@grid.length ** 2) * 5)
+        possibilities = [UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW]
+        moviments.times do
+            moviment(possibilities[rand 4])
         end
     end
 
@@ -81,10 +90,11 @@ class Table
         system "clear"
         show_table
         puts 'Voce venceu!!' if win?
+        return win?
     end
 
     def play
-        loop_game 
+        loop_game
     end
 end
 
