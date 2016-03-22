@@ -8,8 +8,6 @@ class Table
     end
 
     def show_table
-        #@grid.map{|row| row.map {|x| print x.to_s.rjust(2, "0") + ' '} and puts}
-
         @grid.each do |row|
             row.each do |element|
                 unless element == 0
@@ -24,7 +22,7 @@ class Table
     end
 
     def muddle
-        moviments = 4 * ((@grid.length ** 2) * 5)
+        moviments = @grid.flatten.length * 5
         possibilities = [UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW]
         moviments.times do
             moviment(possibilities[rand 4])
@@ -78,6 +76,8 @@ class Table
     end
 
     def loop_game
+        start_time = Time.now
+
         while !win?
             system "clear"
             show_table
@@ -89,7 +89,7 @@ class Table
 
         system "clear"
         show_table
-        puts 'Voce venceu!!' if win?
+        puts "You won! Just #{(Time.now - start_time)} seconds" if win?
         return win?
     end
 
