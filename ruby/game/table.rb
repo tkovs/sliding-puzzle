@@ -87,9 +87,11 @@ class Table
             moviment(move)
         end
 
+        end_time = Time.now
+
         system "clear"
         show_table
-        puts "You won! Just #{(Time.now - start_time)} seconds" if win?
+        puts "You won! Just #{end_time - start_time} seconds" if win?
         return win?
     end
 
