@@ -8,22 +8,19 @@ class Table
     end
 
     def show_table
-        @grid.each do |row|
-            row.each do |element|
-                unless element == 0
-                    print '[' + element.to_s.rjust(2, "0") + '] '
-                else
-                    print '     '
-                end
-            end
+        @grid.each{|row| row.each{|element| print cell(element) + ' '} and puts }
+    end
 
-            puts
-        end
+    def cell(value)
+        return "#{value.to_s.rjust(2, '0')}" unless value.eql?(0)
+
+        return '  '
     end
 
     def muddle
-        moviments = @grid.flatten.length * 5
+        moviments = (@grid.length ** 2) * 10
         possibilities = [UP_ARROW, DOWN_ARROW, LEFT_ARROW, RIGHT_ARROW]
+        
         moviments.times do
             moviment(possibilities[rand 4])
         end
@@ -31,44 +28,46 @@ class Table
 
     def moviment(move)
         if valid?(move)
-            row_current, column_current = row, column
-            row_next, column_next = row_current, column_current
+           /r_ = row _, c_ = column _
+            _n = _ next, _c = _ current/
+            rc, cc = white_row, white_column
+            rn, cn = rc, cc
 
-            row_next += 1 if move == UP_ARROW
-            row_next -= 1 if move == DOWN_ARROW
-            column_next += 1 if move == LEFT_ARROW
-            column_next -= 1 if move == RIGHT_ARROW
-
-            temporary_variable = @grid[row_current][column_current]
-            @grid[row_current][column_current] = @grid[row_next][column_next]
-            @grid[row_next][column_next] = temporary_variable
+            if    move == UP_ARROW    then rn += 1
+            elsif move == DOWN_ARROW  then rn -= 1
+            elsif move == LEFT_ARROW  then cn += 1
+            elsif move == RIGHT_ARROW then cn -= 1
+            end
+            
+            @grid[rc][cc], @grid[rn][cn] = @grid [rn][cn], @grid[rc][cc]
         end
     end
 
-    def row #row that contains the white space (0 here)
+    def white_row #row that contains the white space (0 here)
         @grid.find_index{|row| row.include?(0)}
     end
 
-    def column #column that contains the white space (0 here)
+    def white_column #column that contains the white space (0 here)
         @grid.map{|row| row.find_index(0)}.compact.first
     end
 
     def valid?(move)
-        if move == UP_ARROW
-            return true unless row.eql?(@grid.size-1)
-        elsif move == DOWN_ARROW
-            return true unless row.eql?(0)
-        elsif move == LEFT_ARROW
-            return true unless column.eql?(@grid.size-1)
-        elsif move == RIGHT_ARROW
-            return true unless column.eql?(0)
+        case move 
+            when UP_ARROW
+                return true unless white_row.eql?(@grid.size-1)
+            when DOWN_ARROW
+                return true unless white_row.eql?(0)
+            when LEFT_ARROW
+                return true unless white_column.eql?(@grid.size-1)
+            when RIGHT_ARROW
+                return true unless white_column.eql?(0)
         end
 
         return false
     end
 
     def win?
-        return false if @grid.flatten.last != 0
+        return false unless @grid.flatten.last.eql?(0)
 
         list = @grid.flatten
         list.pop
