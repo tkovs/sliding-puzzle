@@ -78,7 +78,7 @@ class Table
         start_time = Time.now
 
         while !win?
-            system "clear"
+            system "clear" or "cls"
             show_table
             move = read_char
             break if move == "q"
@@ -88,7 +88,7 @@ class Table
 
         end_time = Time.now
 
-        system "clear"
+        system "clear" or system "cls"
         show_table
         puts "You won! Just #{end_time - start_time} seconds" if win?
         return win?
