@@ -1,6 +1,6 @@
 require_relative 'getkeys'
 
-class Table
+class SlidingPuzzle
     def initialize(size)
         table =  (1.. size*size -1).to_a.push(0)
         @grid = table.each_slice(size).to_a
@@ -98,5 +98,3 @@ class Table
         loop_game
     end
 end
-
-Table.new(4).play
