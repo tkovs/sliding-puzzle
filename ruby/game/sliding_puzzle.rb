@@ -4,6 +4,7 @@ class SlidingPuzzle
     def initialize(size)
         table =  (1.. size*size -1).to_a.push(0)
         @grid = table.each_slice(size).to_a
+        @moves = 0
         muddle
     end
 
@@ -24,6 +25,8 @@ class SlidingPuzzle
         moviments.times do
             moviment(possibilities[rand 4])
         end
+
+        @moves = 0
     end
 
     def moviment(move)
@@ -40,6 +43,7 @@ class SlidingPuzzle
             end
             
             @grid[rc][cc], @grid[rn][cn] = @grid [rn][cn], @grid[rc][cc]
+            @moves += 1
         end
     end
 
@@ -90,7 +94,7 @@ class SlidingPuzzle
 
         system "clear" or system "cls"
         show_table
-        puts "You won! Just #{end_time - start_time} seconds" if win?
+        puts "You won! Just #{end_time - start_time} seconds and #{@moves} moves." if win?
         return win?
     end
 
